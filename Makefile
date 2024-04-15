@@ -6,14 +6,16 @@ SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-CPPFLAGS := $(INC_FLAGS) -MMD -MP
+CC=gcc
+CFLAGS=-Wall -Wextra -std=c17 -MMD
+CC_SDL=-lSDL `sdl2-config --cflags --libs`
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+	$(CC) $(OBJS) $(CFLAGS) $(CC_SDL) -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CC_SDL) -c $< -o $@
 
 .PHONY: clean
 clean:

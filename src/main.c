@@ -1,55 +1,61 @@
+#include <SDL2/SDL.h>
+#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 int main() {
-	int NONE = 0;
-	int KING = 1;
-	int PAWN = 2;
-	int KNIGHT = 3;
-	int BISHOP = 4;
-	int ROOK = 5;
-	int QUEEN = 6;
+	const int WIDTH = 1280;
+	const int HEIGHT = 800;
+	SDL_Window *window;
+	SDL_Renderer *renderer;
 
-	int BLACK = 8;
-	int WHITE = 16;
-
-	int board[64];
-
-	for (int i = 0; i < 64; i++) {
-		if (i < 16) // Place white pieces
-			board[i] = WHITE | NONE;
-		else if (i >= 48) // Place black pieces
-			board[i] = BLACK | NONE;
-		else // Empty squares in the middle
-			board[i] = NONE;
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0) {
+		printf("SDL initialization failed: %s\n", SDL_GetError());
+		return 1;
 	}
 
-	for (int i = 0; i < 64; i++) {
-		printf("%d", board[i]);
+	window = SDL_CreateWindow("Chess Engine", SDL_WINDOWPOS_CENTERED,
+							  SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT,
+							  SDL_WINDOW_SHOWN);
+	if (!window) {
+		printf("Window creation failed: %s\n", SDL_GetError());
+		SDL_Quit();
+		return 1;
 	}
 
-	int count = 0;
-	for (int i = 0; i < 64; i++) {
-		switch (board[i]) {
-		case 16:
-			printf("W ");
-			break;
-		case 8:
-			printf("B ");
-			break;
-		case 0:
-			printf(". ");
-			break;
-		default:
-			printf("? ");
-			break;
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (!renderer) {
+		printf("Renderer creation failed: %s\n", SDL_GetError());
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		return 1;
+	}
+
+	bool window_should_close = false;
+	while (!window_should_close) {
+		SDL_Event event;
+		if(SDL_PollEvent(&event) > 0) {
+			printf("Events are polling\n");
+			if(event.type == SDL_QUIT) {
+				window_should_close = true;
+			}
+
+			if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
+				window_should_close = true;
+			}
 		}
-		count++;
-		if (count == 8) {
-			count = 0;
-			printf("\n");
-		}
+
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderClear(renderer);
+
+		// render
+
+		SDL_RenderPresent(renderer);
+		SDL_Delay(100);
 	}
 
-	return EXIT_SUCCESS;
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+
+	return 0;
 }
