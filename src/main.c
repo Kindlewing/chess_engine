@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -33,7 +33,7 @@ int main() {
 	bool window_should_close = false;
 	while (!window_should_close) {
 		SDL_Event event;
-		if(SDL_PollEvent(&event) > 0) {
+		while(SDL_PollEvent(&event) > 0) {
 			printf("Events are polling\n");
 			if(event.type == SDL_QUIT) {
 				window_should_close = true;

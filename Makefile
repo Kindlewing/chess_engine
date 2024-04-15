@@ -8,7 +8,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 CC=gcc
 CFLAGS=-Wall -Wextra -std=c17 -MMD
-CC_SDL=-lSDL `sdl2-config --cflags --libs`
+CC_SDL=-lSDL2 `sdl2-config --cflags --libs`
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(CC_SDL) -o $@ $(LDFLAGS)
