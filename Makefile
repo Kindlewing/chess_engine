@@ -7,7 +7,7 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 CC=gcc
-CFLAGS=-Wall -Wextra -std=c17 -MMD
+CFLAGS=-Wall -Wextra -std=c99 -MMD
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) -o $@ $(LDFLAGS)

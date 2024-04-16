@@ -1,5 +1,7 @@
+#include <stdint.h>
+
 int main() {
-
-
-  return 0;
+	uint64_t bitboard;
+	
+	return 0;
 }
