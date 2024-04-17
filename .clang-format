@@ -4,7 +4,7 @@ IndentWidth: 4
 BreakBeforeBraces: Attach
 AllowShortFunctionsOnASingleLine: None
 AllowAllArgumentsOnNextLine: false
-IndentCaseLabels: true;
+IndentCaseLabels: true
 BinPackArguments: true
 ColumnLimit: 80
 IncludeBlocks: Preserve

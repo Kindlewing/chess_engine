@@ -5,15 +5,15 @@
 typedef uint64_t bitboard;
 
 enum piece {
-  None = 0,
-  Pawn = 1,
-  Rook = 2,
-  Knight = 3,
-  Bishop = 4,
-  Queen = 5,
-  King = 6,
-  Black = 8,
-  White = 16
+	None = 0,
+	Pawn = 1,
+	Rook = 2,
+	Knight = 3,
+	Bishop = 4,
+	Queen = 5,
+	King = 6,
+	Black = 8,
+	White = 16
 };
 
 // clang-format off
@@ -31,25 +31,25 @@ enum square {
 // clang-format on
 
 void print_bitboard(bitboard board) {
-  for (int file = 0; file < 8; file++) {
-    for (int rank = 0; rank < 8; rank++) {
-      printf(" %lu  ", (board >> (rank * 8 + file)) & 1);
-    }
-    printf("\n");
-  }
+	for (int file = 0; file < 8; file++) {
+		for (int rank = 0; rank < 8; rank++) {
+			printf(" %lu  ", (board >> (rank * 8 + file)) & 1);
+		}
+		printf("\n");
+	}
 }
 
 void set_bit(bitboard *bitboard, enum square square) {
-  *bitboard |= (1L << square);
+	*bitboard |= (1L << square);
 }
 
 int main() {
-  bitboard board = 0L;
+	bitboard board = 0L;
 
-  set_bit(&board, a8);
-  set_bit(&board, e4);
+	set_bit(&board, a8);
+	set_bit(&board, e4);
 
-  print_bitboard(board);
+	print_bitboard(board);
 
-  return 0;
+	return 0;
 }
