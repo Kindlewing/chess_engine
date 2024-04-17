@@ -1,4 +1,3 @@
-#include <ctype.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -43,12 +42,16 @@ void set_bit(bitboard *bitboard, enum square square) {
 	*bitboard |= (1L << square);
 }
 
+int get_bit(bitboard bitboard, enum square square) {
+	long mask = 1L << square;
+	return (mask & bitboard) != 0;
+}
+
 int main() {
 	bitboard board = 0L;
 
 	set_bit(&board, a8);
 	set_bit(&board, e4);
-
 	print_bitboard(board);
 
 	return 0;
