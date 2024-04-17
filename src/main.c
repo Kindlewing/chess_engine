@@ -29,15 +29,6 @@ enum square {
 };
 // clang-format on
 
-void print_bitboard(bitboard board) {
-	for (int file = 0; file < 8; file++) {
-		for (int rank = 0; rank < 8; rank++) {
-			printf(" %lu  ", (board >> (rank * 8 + file)) & 1);
-		}
-		printf("\n");
-	}
-}
-
 void set_bit(bitboard *bitboard, enum square square) {
 	*bitboard |= (1L << square);
 }
@@ -47,12 +38,39 @@ int get_bit(bitboard bitboard, enum square square) {
 	return (mask & bitboard) != 0;
 }
 
+int pop_bit(bitboard bitboard, enum square square) {
+	return get_bit(bitboard, square) ? bitboard ^= (1L << square) : 0;
+}
+
+void print_bitboard(bitboard bitboard) {
+	printf("\n");
+
+	for (int rank = 0; rank < 8; rank++) {
+
+		for (int file = 0; file < 8; file++) {
+			int square = rank * 8 + file;
+
+			// print ranks
+			if (!file)
+				printf("  %d ", 8 - rank);
+
+			// print bit state (either 1 or 0)
+			printf(" %d", get_bit(bitboard, square) ? 1 : 0);
+		}
+		printf("\n");
+	}
+	printf("\n     a b c d e f g h\n\n");
+	printf("     Bitboard: %lud\n\n", bitboard);
+}
+
 int main() {
 	bitboard board = 0L;
 
 	set_bit(&board, a8);
 	set_bit(&board, e4);
 	print_bitboard(board);
+	bitboard no_e4 = pop_bit(board, e4);
+	print_bitboard(no_e4);
 
 	return 0;
 }
