@@ -1,9 +1,10 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef uint64_t bitboard;
 
-enum piece {
+typedef enum {
 	None = 0,
 	Pawn = 1,
 	Rook = 2,
@@ -13,11 +14,11 @@ enum piece {
 	King = 6,
 	Black = 8,
 	White = 16
-};
+} piece;
 
 // clang-format off
 // squares
-enum square {
+typedef enum {
 	a8, b8, c8, d8, e8, f8, g8, h8,
     a7, b7, c7, d7, e7, f7, g7, h7,
     a6, b6, c6, d6, e6, f6, g6, h6,
@@ -26,19 +27,41 @@ enum square {
     a3, b3, c3, d3, e3, f3, g3, h3,
     a2, b2, c2, d2, e2, f2, g2, h2,
     a1, b1, c1, d1, e1, f1, g1, h1
-};
+} square;
 // clang-format on
 
-void set_bit(bitboard *bitboard, enum square square) {
+int *to_binary(uint64_t decimal) {
+	int *binary = (int *)malloc(sizeof(int) * 64);
+	if (binary == NULL) {
+		printf("Memory allocation failed\n");
+		exit(1);
+	}
+
+	for (int i = 0; i < 64; i++) {
+		binary[i] = decimal & 1;
+		decimal >>= 1L;
+	}
+	return binary;
+}
+
+void print_binary(int *binary) {
+	for (int i = 64; i > 0; i--) {
+		printf("%d", binary[i]);
+	}
+	printf("\n");
+}
+
+void set_bit(bitboard *bitboard, square square) {
 	*bitboard |= (1L << square);
 }
 
-int get_bit(bitboard bitboard, enum square square) {
+int get_bit(bitboard bitboard, square square) {
 	long mask = 1L << square;
+	printf("%ldl\n", mask);
 	return (mask & bitboard) != 0;
 }
 
-int pop_bit(bitboard bitboard, enum square square) {
+bitboard pop_bit(bitboard bitboard, square square) {
 	return get_bit(bitboard, square) ? bitboard ^= (1L << square) : 0;
 }
 
@@ -46,15 +69,11 @@ void print_bitboard(bitboard bitboard) {
 	printf("\n");
 
 	for (int rank = 0; rank < 8; rank++) {
-
 		for (int file = 0; file < 8; file++) {
 			int square = rank * 8 + file;
-
-			// print ranks
-			if (!file)
+			if (!file) {
 				printf("  %d ", 8 - rank);
-
-			// print bit state (either 1 or 0)
+			}
 			printf(" %d", get_bit(bitboard, square) ? 1 : 0);
 		}
 		printf("\n");
@@ -65,12 +84,5 @@ void print_bitboard(bitboard bitboard) {
 
 int main() {
 	bitboard board = 0L;
-
-	set_bit(&board, a8);
-	set_bit(&board, e4);
-	print_bitboard(board);
-	bitboard no_e4 = pop_bit(board, e4);
-	print_bitboard(no_e4);
-
 	return 0;
 }
