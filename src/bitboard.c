@@ -31,3 +31,12 @@ void print_bitboard(bitboard bitboard) {
 	printf("      a b c d e f g h\n\n");
 	printf(" Bitboard: %lud\n\n", bitboard);
 }
+
+void mask_pawn_attacks(side side, square square) {
+	bitboard position = 0ULL;
+	bitboard attacks = 0ULL;
+
+	set_bit(&position, square);
+
+	// For the current position, what squares is this pawn attacking?
+}
