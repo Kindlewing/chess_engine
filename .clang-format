@@ -1,0 +1,11 @@
+UseTab: Always
+TabWidth: 4
+IndentWidth: 4
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: None
+AllowAllArgumentsOnNextLine: false
+IndentCaseLabels: true
+BinPackArguments: true
+ColumnLimit: 80
+IncludeBlocks: Preserve
+SortIncludes: Never
