@@ -1,6 +1,6 @@
 # Compiler and flags
-CC := gcc
-CFLAGS := -Wall -Wextra -Iinclude -Isrc
+CC := clang
+CFLAGS := -Wall -Werror -Wpedantic -Wextra -Iinclude -Isrc -g
 
 # Source and output definitions
 SRCS := $(shell find src -name "*.c")
@@ -12,6 +12,9 @@ BIN := main
 # Default target
 all: $(BIN)
 
+debug: $(CFLAGS) += 
+debug: $(BIN)
+
 # Link the binary
 $(BIN): $(OBJS)
 	@mkdir -p $(dir $@)
@@ -20,7 +23,7 @@ $(BIN): $(OBJS)
 # Compile .c to .o with dependency tracking
 build/%.o: src/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -MMD -c $< -o $@
+	$(CC) $(CFLAGS)  -MMD -c $< -o $@
 
 # Include dependency files if they exist
 -include $(DEPS)
@@ -28,5 +31,7 @@ build/%.o: src/%.c
 # Clean build output
 clean:
 	rm -rf build main
+
+
 
 .PHONY: all clean
