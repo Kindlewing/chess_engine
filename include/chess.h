@@ -16,25 +16,28 @@ typedef uint64_t u64;
 
 typedef float f32;
 typedef double f64;
+typedef u64 bitboard;
 
 typedef struct {
-    u64 white_pawns;
-    u64 white_knights;
-    u64 white_bishops;
-    u64 white_rooks;
-    u64 white_queens;
-    u64 white_king;
+    bitboard white_pawns;
+    bitboard white_knights;
+    bitboard white_bishops;
+    bitboard white_rooks;
+    bitboard white_queens;
+    bitboard white_king;
 
-    u64 black_pawns;
-    u64 black_knights;
-    u64 black_bishops;
-    u64 black_rooks;
-    u64 black_queens;
-    u64 black_king;
-    bool white_turn;
-    i32 castle_rights;
-    i32 en_passant_square;
-} board_state;
+    bitboard black_pawns;
+    bitboard black_knights;
+    bitboard black_bishops;
+    bitboard black_rooks;
+    bitboard black_queens;
+    bitboard black_king;
+
+    bitboard all_white_pieces;
+    bitboard all_black_pieces;
+    bitboard all_pieces;
+
+} board;
 
 /* clang-format off */
 typedef enum {
@@ -49,5 +52,5 @@ typedef enum {
 } square;
 /* clang-format on */
 
-u64 bb_generate_from_fen(void);
-void bb_print(void);
+bitboard bb_generate_from_fen(string *fen);
+void bb_print(bitboard bb);

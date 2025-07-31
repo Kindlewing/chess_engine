@@ -1,37 +1,47 @@
-# Compiler and flags
 CC := clang
-CFLAGS := -Wall -Werror -Wpedantic -Wextra -Iinclude -Isrc -g
+SRC_DIR := src
+INC_DIR := include
+BUILD_DIR := build
+BIN := $(BUILD_DIR)/main
 
-# Source and output definitions
-SRCS := $(shell find src -name "*.c")
-OBJS := $(patsubst src/%.c, build/%.o, $(SRCS))
-DEPS := $(OBJS:.o=.d)
+# Default flags
+CFLAGS := -Wall -Wextra -Werror -pedantic -I$(INC_DIR)
+DEBUG_FLAGS := -g
+RELEASE_FLAGS := -O2
 
-BIN := main
+# Sources and objects
+SRCS := $(shell find $(SRC_DIR) -name '*.c')
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
 # Default target
-all: $(BIN)
+.PHONY: all
+all: release
 
-debug: $(CFLAGS) += 
+# --- Release and Debug builds ---
+.PHONY: release debug
+release: CFLAGS += $(RELEASE_FLAGS)
+release: $(BIN)
+debug: CFLAGS += $(DEBUG_FLAGS)
 debug: $(BIN)
 
-# Link the binary
+# --- Linking ---
 $(BIN): $(OBJS)
 	@mkdir -p $(dir $@)
 	$(CC) $(OBJS) -o $@
 
-# Compile .c to .o with dependency tracking
-build/%.o: src/%.c
+# --- Compiling ---
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS)  -MMD -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -c $< -o $@
 
-# Include dependency files if they exist
--include $(DEPS)
+# --- Dependency files ---
+-include $(OBJS:.o=.d)
 
-# Clean build output
+.PHONY: run
+run:
+	./$(BIN)
+
+# --- Clean up ---
+.PHONY: clean
 clean:
-	rm -rf build main
-
-
-
-.PHONY: all clean
+	rm -rf $(BUILD_DIR)
