@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
-bitboard bb_generate_from_fen(string *fen) {
+board *board_generate_from_fen(string *fen) {
+}
+
+bitboard bitboard_generate_from_fen(string *fen) {
     bitboard bitboard = 0;
 
     for (size_t i = 0; i < fen->length; i += 1) {
@@ -12,7 +15,7 @@ bitboard bb_generate_from_fen(string *fen) {
     return bitboard;
 }
 
-void bb_print(bitboard bb) {
+void bitboard_print(bitboard bb) {
     for (int rank = 7; rank >= 0; rank--) {
         printf("%d  ", rank + 1);
         for (int file = 0; file < 8; file++) {

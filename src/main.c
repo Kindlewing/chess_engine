@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "chess.h"
 
 int main(void) {
@@ -10,7 +9,7 @@ int main(void) {
     board.all_pieces = 0;
     board.all_pieces = board.all_pieces | (1 << g3);
 
-    bb_print(board.all_pieces);
+    bitboard_print(board.all_pieces);
     string_destroy(starting_fen);
     return 0;
 }

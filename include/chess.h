@@ -52,5 +52,6 @@ typedef enum {
 } square;
 /* clang-format on */
 
-bitboard bb_generate_from_fen(string *fen);
-void bb_print(bitboard bb);
+board *board_generate_from_fen(string *fen);
+bitboard bitboard_generate_from_fen(string *fen);
+void bitboard_print(bitboard bb);
