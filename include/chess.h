@@ -18,6 +18,14 @@ typedef float f32;
 typedef double f64;
 typedef u64 bitboard;
 
+typedef enum {
+    NONE,
+    WHITE_KINGSIDE,
+    WHITE_QUEENSIDE,
+    BLACK_KINGSIDE,
+    BLACK_QUEENSIDE
+} castling_rights;
+
 typedef struct {
     bitboard white_pawns;
     bitboard white_knights;
@@ -37,6 +45,8 @@ typedef struct {
     bitboard all_black_pieces;
     bitboard all_pieces;
 
+    castling_rights castle_rights;
+
 } board;
 
 /* clang-format off */
@@ -52,6 +62,5 @@ typedef enum {
 } square;
 /* clang-format on */
 
-board *board_generate_from_fen(string *fen);
-bitboard bitboard_generate_from_fen(string *fen);
+void board_generate_from_fen(board *board, string *fen);
 void bitboard_print(bitboard bb);

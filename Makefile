@@ -5,7 +5,8 @@ BUILD_DIR := build
 BIN := $(BUILD_DIR)/main
 
 # Default flags
-CFLAGS := -Wall -Wextra -Werror -pedantic -I$(INC_DIR)
+CFLAGS := -Wall -Wextra -Wpedantic -I$(INC_DIR)
+
 DEBUG_FLAGS := -g
 RELEASE_FLAGS := -O2
 
@@ -15,7 +16,7 @@ OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
 # Default target
 .PHONY: all
-all: release
+all: debug
 
 # --- Release and Debug builds ---
 .PHONY: release debug
@@ -38,7 +39,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 -include $(OBJS:.o=.d)
 
 .PHONY: run
-run:
+run: release
 	./$(BIN)
 
 # --- Clean up ---
