@@ -75,10 +75,17 @@ void board_generate_from_fen(board *board, string *fen) {
             file += 1;
             break;
         default:
-            fprintf(stderr, "Invalid FEN string. Got %c\n", c);
+            fprintf(stderr, "Invalid FEN string. Got %c at character %d\n", c,
+                    curr + 1);
             exit(EXIT_FAILURE);
         }
         curr += 1;
+    }
+
+    // move past space
+    curr += 1;
+    if (fen->data[curr] == 'w') {
+        board->
     }
 
     board->all_black_pieces = board->black_rooks | board->black_pawns |

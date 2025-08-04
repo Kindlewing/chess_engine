@@ -1,11 +1,11 @@
 CC := clang
 SRC_DIR := src
-INC_DIR := include
+INCLUDE_DIRS := $(shell find $(SRC_DIR) -name '*.h' -exec dirname {} \; | sort -u)
 BUILD_DIR := build
 BIN := $(BUILD_DIR)/main
 
 # Default flags
-CFLAGS := -Wall -Wextra -Wpedantic -I$(INC_DIR)
+CFLAGS := -Wall -Wextra -Wpedantic -I$(INCLUDE_DIRS)
 
 DEBUG_FLAGS := -g
 RELEASE_FLAGS := -O2
